@@ -4,6 +4,12 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.InetAddress;
 import java.net.Socket;
+import java.util.ArrayList;
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+
+import java.io.IOException;
+import java.util.ArrayList;
 
 class ClientService extends Thread {
     Socket connectSocket;
@@ -30,6 +36,33 @@ class ClientService extends Thread {
             String receivedText;
             // read from the connection socket
             while (((receivedText = in.readLine()) != null)) {
+                Document doc = null;
+                try {
+                    doc = Jsoup.connect("https://www.javatpoint.com/jsoup-tutorial").get();
+                } catch (IOException e) {
+                    System.out.println("Code 2: !!!Server couldn't find the web page!!!");
+                }
+
+                String[] words = doc.toString().split(" ");
+                ArrayList<String> emails = new ArrayList<String>();
+                for(String word: words){
+                    if (word.matches("[a-zA-Z0-9.-]+@[a-zA-Z0-9.-]+.[a-zA-Z0-9.,]")){
+                        emails.add(word);
+                    }
+                }
+
+                for (String email: emails){
+                    if(email.charAt(email.length()-1) == '.' || email.charAt(email.length()-1) == ',') {
+                        email = email.substring(0, email.length()-1);
+                    }
+                    System.out.println(email);
+                }
+
+                if(emails.size() == 0){
+                    System.out.println("Code 1: !!!No email addresses found on the page!!!");
+                }else{
+                    System.out.println(0);
+                }
                 System.out.println("Client [" + clientAddr.getHostAddress() + ":" + clientPort + "] > " + receivedText);
 
                 // Write the converted uppercase string to the connection socket
