@@ -6,10 +6,12 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
+        <module name="NettverkOblig1" />
         <module name="ServerTcp" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
+      <module name="NettverkOblig1" target="7" />
       <module name="ServerTcp" target="7" />
     </bytecodeTargetLevel>
   </component>
