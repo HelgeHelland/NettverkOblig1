@@ -1,7 +1,7 @@
 import java.io.IOException;
 import java.net.ServerSocket;
 
-public class ServerTcpClient {
+public class ServerTcpMultiClient {
     public static void main(String[] args) throws IOException {
         int portNumber = 5555; // Default port to use
 
@@ -25,7 +25,7 @@ public class ServerTcpClient {
             // continuously listening for clients
             while (true) {
                 // create and start a new ClientServer thread for each connected client
-                ClientService clientserver = new ClientService(serverSocket.accept());
+                ClientServiceThead clientserver = new ClientServiceThead(serverSocket.accept());
                 clientserver.start();
             }
         } catch (IOException e) {

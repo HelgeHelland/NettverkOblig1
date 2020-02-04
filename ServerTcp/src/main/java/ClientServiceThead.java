@@ -14,12 +14,12 @@ import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-class ClientService extends Thread {
+class ClientServiceThead extends Thread {
     Socket connectSocket;
     InetAddress clientAddr;
     int serverPort, clientPort;
 
-    public ClientService(Socket connectSocket) {
+    public ClientServiceThead(Socket connectSocket) {
         this.connectSocket = connectSocket;
         clientAddr = connectSocket.getInetAddress();
         clientPort = connectSocket.getPort();
