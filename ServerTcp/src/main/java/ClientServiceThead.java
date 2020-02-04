@@ -6,6 +6,7 @@ import java.net.InetAddress;
 import java.net.Socket;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
+
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 
@@ -36,14 +37,15 @@ class ClientServiceThead extends Thread {
                         new InputStreamReader(connectSocket.getInputStream()));
         ) {
 
-            String receivedText;
+            String receivedURL;
+
             // read from the connection socket
-            while (((receivedText = in.readLine()) != null)) {
-                System.out.println("Client [" + clientAddr.getHostAddress() + ":" + clientPort + "] > " + receivedText);
+            while (((receivedURL = in.readLine()) != null)) {
+                System.out.println("Client [" + clientAddr.getHostAddress() + ":" + clientPort + "] > " + receivedURL);
                 Document doc = null;
                 int feilmelding = 2;
                 try {
-                    doc = Jsoup.connect("https://" + receivedText).get();
+                    doc = Jsoup.connect("https://" + receivedURL).get();
                 } catch (IOException e) {
                     feilmelding = 2;
                     out.println(feilmelding);
@@ -61,19 +63,18 @@ class ClientServiceThead extends Thread {
 
                 Pattern p = Pattern.compile("[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\\.[a-zA-Z0-9-.]+");
                 Matcher matcher = p.matcher(doc.body().html());
-                while (matcher.find()){
+                while (matcher.find()) {
                     emails += matcher.group() + "\n";
                 }
 
                 String outText = "";
-                if(emails.equals("")){
+                if (emails.equals("")) {
                     feilmelding = 1;
                     outText = feilmelding + "";
-                }else{
+                } else {
                     feilmelding = 0;
                     outText = feilmelding + "\n" + emails;
                 }
-
 
 
                 out.println(outText);
@@ -89,15 +90,4 @@ class ClientServiceThead extends Thread {
         }
     }
 
-    /***
-     * Process the input string and returns.
-     * @param intext Input text
-     * @return processed text
-     */
-    private String ProcessString(String intext) {
-        // Convert to upper case
-        String outtext = intext.toUpperCase();
-
-        return outtext;
-    }
 }

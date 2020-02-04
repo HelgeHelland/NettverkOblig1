@@ -14,7 +14,7 @@ public class ServerTcpMultiClient {
             }
         }
 
-        System.out.println("Hi, I am the EchoUCase Multi-client TCP server.");
+        System.out.println("Hi, I am the Email Extractor Multi-client TCP server.");
 
         try (
                 // Create server socket with the given port number
