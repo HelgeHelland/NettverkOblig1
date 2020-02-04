@@ -13,6 +13,8 @@ import org.jsoup.nodes.Document;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 class ClientService extends Thread {
     Socket connectSocket;
@@ -58,13 +60,11 @@ class ClientService extends Thread {
 
                 String[] words = doc.toString().split(">");
                 String emails = "";
-                for(String word: words){
-                    if (word.matches("[a-zA-Z0-9.-]+@[a-zA-Z0-9.-]+.[a-zA-Z0-9.,]")){
-                        if(word.charAt(word.length()-1) == '.' || word.charAt(word.length()-1) == ',') {
-                            word = word.substring(0, word.length() - 1);
-                        }
-                        emails += word + "\n";
-                    }
+
+                Pattern p = Pattern.compile("[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\\.[a-zA-Z0-9-.]+");
+                Matcher matcher = p.matcher(doc.body().html());
+                while (matcher.find()){
+                    emails += matcher.group() + "\n";
                 }
 
                 String outText = "";
