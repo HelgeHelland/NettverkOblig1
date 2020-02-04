@@ -37,36 +37,37 @@ class ClientService extends Thread {
             // read from the connection socket
             while (((receivedText = in.readLine()) != null)) {
                 Document doc = null;
+                int feilmelding = 2;
                 try {
-                    doc = Jsoup.connect("https://www.javatpoint.com/jsoup-tutorial").get();
+                    doc = Jsoup.connect(receivedText).get();
                 } catch (IOException e) {
-                    System.out.println("Code 2: !!!Server couldn't find the web page!!!");
+                    e.printStackTrace();
+                } catch (IllegalArgumentException e){
+                    feilmelding = 2;
+                    break;
                 }
 
                 String[] words = doc.toString().split(" ");
-                ArrayList<String> emails = new ArrayList<String>();
+                String emails = "";
                 for(String word: words){
                     if (word.matches("[a-zA-Z0-9.-]+@[a-zA-Z0-9.-]+.[a-zA-Z0-9.,]")){
-                        emails.add(word);
+                        if(word.charAt(word.length()-1) == '.' || word.charAt(word.length()-1) == ',') {
+                            word = word.substring(0, word.length() - 1);
+                        }
+                        emails += word + "\n";
                     }
                 }
 
-                for (String email: emails){
-                    if(email.charAt(email.length()-1) == '.' || email.charAt(email.length()-1) == ',') {
-                        email = email.substring(0, email.length()-1);
-                    }
-                    System.out.println(email);
-                }
-
-                if(emails.size() == 0){
-                    System.out.println("Code 1: !!!No email addresses found on the page!!!");
+                if(emails.equals("")){
+                    feilmelding = 1;
                 }else{
-                    System.out.println(0);
+                    feilmelding = 0;
                 }
+
                 System.out.println("Client [" + clientAddr.getHostAddress() + ":" + clientPort + "] > " + receivedText);
 
                 // Write the converted uppercase string to the connection socket
-                String outText = ProcessString(receivedText);
+                String outText = feilmelding + emails;
 
                 out.println(outText);
                 System.out.println("I (Server) [" + connectSocket.getLocalAddress().getHostAddress() + ":" + serverPort + "] > " + outText);
