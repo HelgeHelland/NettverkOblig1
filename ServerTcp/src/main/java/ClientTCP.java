@@ -55,6 +55,8 @@ public class ClientTCP {
 
                 List<String> emails = new ArrayList<>();
 
+                System.out.println();
+
                 if (receivedCode.equals("0")) {
 
                     // read the received emails
@@ -66,10 +68,9 @@ public class ClientTCP {
                     }
 
                     // print the email(s) that was/were found
-                    System.out.println();
                     System.out.println("The following email(s) was/were found:");
                     for(String email : emails) System.out.println(email);
-                    System.out.println();
+
 
                 } else if (receivedCode.equals("1")) {
                     System.out.println("!!!No email address found on the page!!!");
@@ -80,7 +81,7 @@ public class ClientTCP {
 
                 }
 
-
+                System.out.println();
                 System.out.print("Type in the URL that you want to check, e.g. www.vg.no (Stop by typing exit): ");
             }
         } catch (UnknownHostException e) {
