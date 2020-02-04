@@ -6,6 +6,7 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.InetAddress;
 import java.net.Socket;
+import java.net.UnknownHostException;
 import java.util.ArrayList;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -38,18 +39,24 @@ class ClientService extends Thread {
             String receivedText;
             // read from the connection socket
             while (((receivedText = in.readLine()) != null)) {
+                System.out.println("Client [" + clientAddr.getHostAddress() + ":" + clientPort + "] > " + receivedText);
                 Document doc = null;
                 int feilmelding = 2;
                 try {
-                    doc = Jsoup.connect(receivedText).get();
+                    doc = Jsoup.connect("https://" + receivedText).get();
                 } catch (IOException e) {
-                    e.printStackTrace();
-                } catch (IllegalArgumentException e){
                     feilmelding = 2;
-                    break;
+                    out.println(feilmelding);
+                    System.out.println("I (Server) [" + connectSocket.getLocalAddress().getHostAddress() + ":" + serverPort + "] > " + feilmelding);
+                    continue;
+                } catch (Exception e) {
+                    feilmelding = 2;
+                    out.println(feilmelding);
+                    System.out.println("I (Server) [" + connectSocket.getLocalAddress().getHostAddress() + ":" + serverPort + "] > " + feilmelding);
+                    continue;
                 }
 
-                String[] words = doc.toString().split(" ");
+                String[] words = doc.toString().split(">");
                 String emails = "";
                 for(String word: words){
                     if (word.matches("[a-zA-Z0-9.-]+@[a-zA-Z0-9.-]+.[a-zA-Z0-9.,]")){
@@ -60,16 +67,16 @@ class ClientService extends Thread {
                     }
                 }
 
+                String outText = "";
                 if(emails.equals("")){
                     feilmelding = 1;
+                    outText = feilmelding + "";
                 }else{
                     feilmelding = 0;
+                    outText = feilmelding + "\n" + emails;
                 }
 
-                System.out.println("Client [" + clientAddr.getHostAddress() + ":" + clientPort + "] > " + receivedText);
 
-                // Write the converted uppercase string to the connection socket
-                String outText = feilmelding + emails;
 
                 out.println(outText);
                 System.out.println("I (Server) [" + connectSocket.getLocalAddress().getHostAddress() + ":" + serverPort + "] > " + outText);
