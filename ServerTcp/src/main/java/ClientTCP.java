@@ -42,7 +42,7 @@ public class ClientTCP {
 
             System.out.print("Type in the URL that you want to check, e.g. www.vg.no (Stop by typing exit): ");
 
-            // Loop until null input string
+            // Loop until user input exit
             while (!(inputURL = stdIn.readLine()).equals("exit")) {
 
                 // write keyboard input to the socket
@@ -57,6 +57,7 @@ public class ClientTCP {
 
                 System.out.println();
 
+                //email(s) was found
                 if (receivedCode.equals("0")) {
 
                     // read the received emails
@@ -71,14 +72,16 @@ public class ClientTCP {
                     System.out.println("The following email(s) was/were found:");
                     for(String email : emails) System.out.println(email);
 
-
+                // URL exists but no email was found
                 } else if (receivedCode.equals("1")) {
                     System.out.println("!!!No email address found on the page!!!");
+
+                // URL does not exists
                 } else if (receivedCode.equals("2")) {
                     System.out.println("Server couldn’t find the web page!!!");
+                // Error in server
                 } else {
                     System.err.println("!!!Respond message should be 0, 1 or 2!!!");
-
                 }
 
                 System.out.println();

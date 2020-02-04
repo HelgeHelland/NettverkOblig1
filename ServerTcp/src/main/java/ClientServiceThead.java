@@ -41,20 +41,20 @@ class ClientServiceThead extends Thread {
 
             // read from the connection socket
             while (((receivedURL = in.readLine()) != null)) {
-                System.out.println("Client [" + clientAddr.getHostAddress() + ":" + clientPort + "] > " + receivedURL);
+                System.out.println("Received URL from Client [" + clientAddr.getHostAddress() + ":" + clientPort + "]: " + receivedURL);
                 Document doc = null;
-                int feilmelding = 2;
+                int code = 2;
                 try {
                     doc = Jsoup.connect("https://" + receivedURL).get();
                 } catch (IOException e) {
-                    feilmelding = 2;
-                    out.println(feilmelding);
-                    System.out.println("I (Server) [" + connectSocket.getLocalAddress().getHostAddress() + ":" + serverPort + "] > " + feilmelding);
+                    code = 2;
+                    out.println(code);
+                    System.out.println("Server [" + connectSocket.getLocalAddress().getHostAddress() + ":" + serverPort + "] sending code: " + code + "\n");
                     continue;
                 } catch (Exception e) {
-                    feilmelding = 2;
-                    out.println(feilmelding);
-                    System.out.println("I (Server) [" + connectSocket.getLocalAddress().getHostAddress() + ":" + serverPort + "] > " + feilmelding);
+                    code = 2;
+                    out.println(code);
+                    System.out.println("Server [" + connectSocket.getLocalAddress().getHostAddress() + ":" + serverPort + "] sending code: " + code + "\n");
                     continue;
                 }
 
@@ -68,17 +68,22 @@ class ClientServiceThead extends Thread {
                 }
 
                 String outText = "";
+
+                // if URL exists but no email was found, send code 1
                 if (emails.equals("")) {
-                    feilmelding = 1;
-                    outText = feilmelding + "";
+                    code = 1;
+                    outText = code + "";
+                    System.out.println("Server [" + connectSocket.getLocalAddress().getHostAddress() + ":" + serverPort + "] sending code: " + code + "\n");
+                // if URL exists and email(s) was/were found, send code 0
                 } else {
-                    feilmelding = 0;
-                    outText = feilmelding + "\n" + emails;
+                    code = 0;
+                    outText = code + "\n" + emails;
+                    System.out.println("Server [" + connectSocket.getLocalAddress().getHostAddress() + ":" + serverPort + "] sending code: " + code + "\n");
+                    System.out.println("and sending following email(s): \n" + emails );
                 }
 
-
+                // sending output to the client
                 out.println(outText);
-                System.out.println("I (Server) [" + connectSocket.getLocalAddress().getHostAddress() + ":" + serverPort + "] > " + outText);
             }
 
             // close the connection socket
