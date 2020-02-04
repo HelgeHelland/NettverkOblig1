@@ -66,8 +66,10 @@ public class ClientTCP {
                     }
 
                     // print the email(s) that was/were found
+                    System.out.println();
                     System.out.println("The following email(s) was/were found:");
                     for(String email : emails) System.out.println(email);
+                    System.out.println();
 
                 } else if (receivedCode.equals("1")) {
                     System.out.println("!!!No email address found on the page!!!");
