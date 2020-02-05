@@ -1,3 +1,5 @@
+package main.java;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -58,7 +60,7 @@ class ClientServiceThead extends Thread {
                     continue;
                 }
 
-                String[] words = doc.toString().split(">");
+              //  String[] words = doc.toString().split(">");
                 String emails = "";
 
                 Pattern p = Pattern.compile("[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\\.[a-zA-Z0-9-.]+");
