@@ -61,8 +61,7 @@ public class ClientTCP {
                 if (receivedCode.equals("0")) {
 
                     // read the received emails
-                    while (!(receivedEmails = in.readLine()).equals(null) && !receivedEmails.equals("")) {
-                        //add only the non-repeating email
+                    while (!(receivedEmails = in.readLine()).equals(null) && !receivedEmails.equals("")){
                             emails.add(receivedEmails);
                     }
 
