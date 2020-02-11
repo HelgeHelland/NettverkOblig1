@@ -1,4 +1,3 @@
-
 import java.io.*;
 import java.net.*;
 import java.sql.SQLOutput;
@@ -62,11 +61,8 @@ public class ClientTCP {
                 if (receivedCode.equals("0")) {
 
                     // read the received emails
-                    while (!(receivedEmails = in.readLine()).equals(null) && !receivedEmails.equals("")) {
-                        //add only the non-repeating email
-                        if(!emails.contains(receivedEmails)){
+                    while (!(receivedEmails = in.readLine()).equals(null) && !receivedEmails.equals("")){
                             emails.add(receivedEmails);
-                        }
                     }
 
                     // print the email(s) that was/were found
