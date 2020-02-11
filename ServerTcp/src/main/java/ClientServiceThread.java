@@ -60,8 +60,9 @@ class ClientServiceThread extends Thread {
 
               //  String[] words = doc.toString().split(">");
                 String emails = "";
-
+                // Creates a patteren matching a typical email address
                 Pattern pattern = Pattern.compile("[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\\.[a-zA-Z0-9-.]+");
+                // Checks the patteren against the HTML, ( if duplicate the email won't be added)
                 Matcher matcher = pattern.matcher(doc.body().html());
                 while (matcher.find()) {
                     if(!emails.contains(matcher.group())) {
