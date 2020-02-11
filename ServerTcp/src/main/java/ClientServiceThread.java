@@ -57,8 +57,7 @@ class ClientServiceThread extends Thread {
                     System.out.println("Server [" + connectSocket.getLocalAddress().getHostAddress() + ":" + serverPort + "] sending code: " + code + "\n");
                     continue;
                 }
-
-              //  String[] words = doc.toString().split(">");
+                
                 String emails = "";
 
                 Pattern pattern = Pattern.compile("[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\\.[a-zA-Z0-9-.]+");
