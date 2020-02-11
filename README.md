@@ -23,8 +23,9 @@ connect at the same time, and the port numbers can be used to recognise clients.
 * A pattern is created to help locate the emails.
 * The pattern is then matched with the HTML document, and any matching pattern is kept.
 * Duplicates gets removed.
-* The client then receives the email as a string. 
-* If no URL is found or no emails are found on the website, an appropriate code and message is sent to the client. 
+* The client then receives the emails as a string. 
+* If no URL is found or no emails are found on the website, a code is sent to the client.
+* The client prints an appropriate messages guided by the code received. 
   
 
 
