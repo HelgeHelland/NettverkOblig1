@@ -61,8 +61,8 @@ class ClientServiceThread extends Thread {
               //  String[] words = doc.toString().split(">");
                 String emails = "";
 
-                Pattern p = Pattern.compile("[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\\.[a-zA-Z0-9-.]+");
-                Matcher matcher = p.matcher(doc.body().html());
+                Pattern pattern = Pattern.compile("[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\\.[a-zA-Z0-9-.]+");
+                Matcher matcher = pattern.matcher(doc.body().html());
                 while (matcher.find()) {
                     if(!emails.contains(matcher.group())) {
                         emails += matcher.group() + "\n";
