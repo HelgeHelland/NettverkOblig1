@@ -7,7 +7,7 @@ import java.util.List;
 public class ClientTCP {
     public static void main(String[] args) throws IOException {
 
-        String hostName = "127.0.0.1"; // Default host, localhost
+        String hostName = "10.253.16.47"; // Default host, localhost
         int portNumber = 5555; // Default port to use
         if (args.length > 0) {
             hostName = args[0];
@@ -63,9 +63,7 @@ public class ClientTCP {
                     // read the received emails
                     while (!(receivedEmails = in.readLine()).equals(null) && !receivedEmails.equals("")) {
                         //add only the non-repeating email
-                        if(!emails.contains(receivedEmails)){
                             emails.add(receivedEmails);
-                        }
                     }
 
                     // print the email(s) that was/were found
