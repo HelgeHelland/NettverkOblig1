@@ -39,7 +39,7 @@ class ClientServiceThread extends Thread {
 
             String receivedURL;
 
-            // read from the connection socket
+            //Getting HTML doc with jSoup
             while (((receivedURL = in.readLine()) != null)) {
                 System.out.println("Received URL from Client [" + clientAddr.getHostAddress() + ":" + clientPort + "]: " + receivedURL);
                 Document doc = null;
@@ -51,13 +51,9 @@ class ClientServiceThread extends Thread {
                     out.println(code);
                     System.out.println("Server [" + connectSocket.getLocalAddress().getHostAddress() + ":" + serverPort + "] sending code: " + code + "\n");
                     continue;
-                } catch (Exception e) {
-                    code = 2;
-                    out.println(code);
-                    System.out.println("Server [" + connectSocket.getLocalAddress().getHostAddress() + ":" + serverPort + "] sending code: " + code + "\n");
-                    continue;
                 }
-                
+
+                //Finding emails with regex patterns matcher 
                 String emails = "";
 
                 Pattern pattern = Pattern.compile("[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\\.[a-zA-Z0-9-.]+");
