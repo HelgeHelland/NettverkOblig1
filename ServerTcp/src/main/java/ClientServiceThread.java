@@ -17,12 +17,12 @@ import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-class ClientServiceThead extends Thread {
+class ClientServiceThread extends Thread {
     Socket connectSocket;
     InetAddress clientAddr;
     int serverPort, clientPort;
 
-    public ClientServiceThead(Socket connectSocket) {
+    public ClientServiceThread(Socket connectSocket) {
         this.connectSocket = connectSocket;
         clientAddr = connectSocket.getInetAddress();
         clientPort = connectSocket.getPort();
