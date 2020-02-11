@@ -64,7 +64,9 @@ class ClientServiceThread extends Thread {
                 Pattern p = Pattern.compile("[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\\.[a-zA-Z0-9-.]+");
                 Matcher matcher = p.matcher(doc.body().html());
                 while (matcher.find()) {
-                    emails += matcher.group() + "\n";
+                    if(!emails.contains(matcher.group())) {
+                        emails += matcher.group() + "\n";
+                    }
                 }
 
                 String outText = "";
