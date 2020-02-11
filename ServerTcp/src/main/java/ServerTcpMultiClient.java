@@ -25,7 +25,7 @@ public class ServerTcpMultiClient {
             // continuously listening for clients
             while (true) {
                 // create and start a new ClientServer thread for each connected client
-                ClientServiceThead clientserver = new ClientServiceThead(serverSocket.accept());
+                ClientServiceThread clientserver = new ClientServiceThread(serverSocket.accept());
                 clientserver.start();
             }
         } catch (IOException e) {
